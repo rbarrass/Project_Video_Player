@@ -6,4 +6,10 @@
     <string name="activity_desc">Choose your role :</string>
     <string name="button_server">Server</string>
     <string name="button_client">Client</string>
+
+    <string name="buttonBlueScanID">Bluetooth Scan</string>
+    <string name="btnConnecter">Connecter</string>
+    <string name="btnDeconnecter">Déconnecter</string>
+    <string name="simple_spinner_item">Spinner</string>
+
 </resources>
