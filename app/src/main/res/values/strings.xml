@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Project_Video_Player</string>
+    <string name="app_client_name">Client</string>
+    <string name="app_server_name">Server</string>
+    <string name="activity_title">Video player application</string>
+    <string name="activity_desc">Choose your role :</string>
+    <string name="button_server">Server</string>
+    <string name="button_client">Client</string>
+</resources>
