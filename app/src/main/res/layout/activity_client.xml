@@ -6,56 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".ClientActivity">
 
+
     <Button
         android:id="@+id/buttonBlueScanID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="buttonBlueScanID"
+        android:text="@string/buttonBlueScanID"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/pairedDevicesListID"
+        app:layout_constraintVertical_bias="0.386" />
 
-    <Spinner
-        android:id="@+id/simple_spinner_item"
-        android:layout_width="408dp"
-        android:layout_height="47dp"
-        android:background="#99ABB8"
-        android:text="simple spinner item"
+    <ListView
+        android:id="@+id/pairedDevicesListID"
+        android:layout_width="263dp"
+        android:layout_height="314dp"
+        android:layout_marginBottom="300dp"
+        android:background="#D9DCDD"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView1ID"
+        android:layout_width="326dp"
+        android:layout_height="29dp"
+        android:gravity="center"
+        android:text="@string/bounded_bluetooth_devices"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/pairedDevicesListID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.214" />
+        app:layout_constraintVertical_bias="0.596" />
 
-    <Button
-        android:id="@+id/btnConnecter"
-        android:layout_width="170dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:text="Connecter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simple_spinner_item"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <Button
-        android:id="@+id/btnDeconnecter"
-        android:layout_width="170dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="28dp"
-        android:text="Déconnecter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toEndOf="@+id/btnConnecter"
-        app:layout_constraintTop_toBottomOf="@+id/simple_spinner_item"
-        app:layout_constraintVertical_bias="0.038" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
