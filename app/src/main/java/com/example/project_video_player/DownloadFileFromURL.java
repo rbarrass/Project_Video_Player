@@ -29,14 +29,17 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
             URLConnection connection = url.openConnection();
             Log.e(MainActivity.TAG,"poil");
             connection.connect();
+            int lenghtOfFile = connection.getContentLength();
             Log.e(MainActivity.TAG,"poil2");
             System.out.println(root);
             System.out.println(sUrl[0]);
 
+
+
             // download the file
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
             Log.e(MainActivity.TAG,"poil3");
-            OutputStream output = new FileOutputStream(root+"/projet/dl.mp4");
+            OutputStream output = new FileOutputStream(root + "/downloadedfile.mp4");
             Log.e(MainActivity.TAG,"poil4");
 
             byte data[] = new byte[1024];
