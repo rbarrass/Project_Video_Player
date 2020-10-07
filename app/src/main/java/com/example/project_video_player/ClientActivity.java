@@ -8,8 +8,11 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -25,6 +28,10 @@ public class ClientActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     // List of bounded devices
     private ArrayList<DeviceItem> deviceItemList;
+
+    //private DeviceListFragment mDeviceListFragment;
+    private BroadcastReceiver mReceiver;
+
 
 
     @Override
@@ -76,9 +83,64 @@ public class ClientActivity extends AppCompatActivity {
                 AdapterDeviceItem adapter = new AdapterDeviceItem(this, deviceItemList);
                 listView.setAdapter(adapter);
 
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+                filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+
+                if (!bluetoothAdapter.isDiscovering()) {
+                    bluetoothAdapter.startDiscovery();
+                }
+
+                registerReceiver(mReceiver2, filter);
+
+
             }
         }
+
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
+
+        mDeviceListFragment = DeviceListFragment.newInstance(bluetoothAdapter);
+        fragmentManager.beginTransaction().replace(R.id.container, mDeviceListFragment).commit();*/
+
+
+        Button scanBtn = (Button)findViewById(R.id.buttonBlueScanID);
+        scanBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                test();
+            }
+        });
     }
+
+    private final BroadcastReceiver mReceiver2 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)){
+                Toast.makeText(getApplicationContext(), "Starting Discovery ...", Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
+                Toast.makeText(getApplicationContext(), "Discovery Done", Toast.LENGTH_SHORT).show();
+            }
+            Toast.makeText(getApplicationContext(), "Guitaupe", Toast.LENGTH_LONG).show();
+
+        }
+    };
+
+
+    public void test() {
+        Toast.makeText(getApplicationContext(), "Apouillé", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isDiscovering()) {
+            Toast.makeText(getApplicationContext(), "is discovering", Toast.LENGTH_SHORT).show();
+            bluetoothAdapter.startDiscovery();
+        }
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(mReceiver2, filter);
+
+
+        }
 
     // Possibility 1 :
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

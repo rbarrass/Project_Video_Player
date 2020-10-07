@@ -16,5 +16,6 @@
     <string name="address">Address</string>
     <string name="device">Device :</string>
     <string name="mac">Mac :</string>
+    <string name="button_download">Download</string>
 
 </resources>
