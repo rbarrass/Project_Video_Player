@@ -1,13 +1,22 @@
 package com.example.project_video_player;
 
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MultiAutoCompleteTextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+import java.util.UUID;
+
 
 public class ServerActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,112 +24,53 @@ public class ServerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server);
 
-        final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
+        //final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
+        final MultiAutoCompleteTextView tap_your_link_here = (MultiAutoCompleteTextView) findViewById(R.id.fieldURL);
         final Button downloadBtn = (Button)findViewById(R.id.downloadButtonID);
 
         downloadBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
+                String downloadUrl = tap_your_link_here.getText().toString();
                 System.out.println("clic");
                 new DownloadFileFromURL().execute(downloadUrl);
             }
         });
     }
+}
 
-    /*private class VideoDownloader extends AsyncTask<String, Integer, String> {
+class Server_Connect_Thread extends Thread {
 
-        private Context context;
-        private PowerManager.WakeLock mWakeLock;
+    BluetoothServerSocket mmServerSocket;
+    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private boolean running = true;
 
-        public void DownloadTask(Context context) {
-            this.context = context;
+    public Server_Connect_Thread() {
+
+        try {
+            mmServerSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord("NAME", UUID.fromString("6559a8ad-d9e9-4a4d-9c96-fbda95d2496c"));
+        } catch (IOException e) {
+            Log.e(MainActivity.TAG, "Bluetooth Error! listenUsingRfcommWithServiceRecord failed. Reason:" + e);
         }
+    }
 
-        @Override
-        protected String doInBackground(String... sUrl) {
-            InputStream input = null;
-            OutputStream output = null;
-            HttpURLConnection connection = null;
+    public void run() {
+        BluetoothSocket mBluetoothSocket;
+        while (running) {
             try {
-                URL url = new URL(sUrl[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                // expect HTTP 200 OK, so we don't mistakenly save error report
-                // instead of the file
-                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    return "Server returned HTTP " + connection.getResponseCode()
-                            + " " + connection.getResponseMessage();
-                }
-
-                // this will be useful to display download percentage
-                // might be -1: server did not report the length
-                int fileLength = connection.getContentLength();
-
-                // download the file
-                input = connection.getInputStream();
-                output = new FileOutputStream("https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4");
-
-                byte data[] = new byte[4096];
-                long total = 0;
-                int count;
-                while ((count = input.read(data)) != -1) {
-                    // allow canceling with back button
-                    if (isCancelled()) {
-                        input.close();
-                        return null;
-                    }
-                    total += count;
-                    // publishing the progress....
-                    if (fileLength > 0) // only if total length is known
-                        publishProgress((int) (total * 100 / fileLength));
-                    output.write(data, 0, count);
-                }
-            } catch (Exception e) {
-                return e.toString();
-            } finally {
-                try {
-                    if (output != null)
-                        output.close();
-                    if (input != null)
-                        input.close();
-                } catch (IOException ignored) {
-                }
-
-                if (connection != null)
-                    connection.disconnect();
+                mBluetoothSocket = mmServerSocket.accept();
+            } catch (IOException e) {
+                break;
             }
-            return null;
-        }
+            if (mBluetoothSocket != null) {
+                // transfer the data here
+                Log.e(MainActivity.TAG, "#####Socket created#####");
+                try{
+                    Log.e(MainActivity.TAG, "#####*client connected#####");
+                    mBluetoothSocket.close();
+                } catch (IOException e) {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // take CPU lock to prevent CPU from going off if the user
-            // presses the power button during download
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    getClass().getName());
-            mWakeLock.acquire();
-            mProgressDialog.show();
+                }
+            }
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... progress) {
-            super.onProgressUpdate(progress);
-            // if we get here, length is known, now set indeterminate to false
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setMax(100);
-            mProgressDialog.setProgress(progress[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            mWakeLock.release();
-            mProgressDialog.dismiss();
-            if (result != null)
-                Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
-        }
-    }*/
+    }
 }
