@@ -11,5 +11,10 @@
     <string name="btnConnecter">Connecter</string>
     <string name="btnDeconnecter">Déconnecter</string>
     <string name="simple_spinner_item">Spinner</string>
+    <string name="bounded_bluetooth_devices">Bounded bluetooth devices</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="device">Device :</string>
+    <string name="mac">Mac :</string>
 
 </resources>
