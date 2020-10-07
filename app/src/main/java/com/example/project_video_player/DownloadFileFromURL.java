@@ -25,38 +25,39 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
         try {
 
             URL url = new URL(sUrl[0]);
-            String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String root = Environment.getExternalStorageDirectory().toString();
             URLConnection connection = url.openConnection();
-            Log.e("tag","poil");
+            Log.e(MainActivity.TAG,"poil");
             connection.connect();
-            Log.e("tag","poil2");
+            Log.e(MainActivity.TAG,"poil2");
+            System.out.println(root);
+            System.out.println(sUrl[0]);
 
             // download the file
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
-            Log.e("tag","poil3");
-            OutputStream output = new FileOutputStream(root + "/downloadedfile.mp4");
-            Log.e("poiltest",root);
-            Log.e("tag","poil4");
+            Log.e(MainActivity.TAG,"poil3");
+            OutputStream output = new FileOutputStream(root+"/projet/dl.mp4");
+            Log.e(MainActivity.TAG,"poil4");
 
             byte data[] = new byte[1024];
             long total = 0;
 
-            Log.e("tag","poil5");
+            Log.e(MainActivity.TAG,"poil5");
 
             while ((count = input.read(data)) != -1) {
                 total += count;
                 output.write(data, 0, count);
             }
 
-            Log.e("tag","poil6");
+            Log.e(MainActivity.TAG,"poil6");
 
             output.flush();
-            Log.e("tag","poil7");
+            Log.e(MainActivity.TAG,"poil7");
             // closing streams
             output.close();
-            Log.e("tag","poil8");
+            Log.e(MainActivity.TAG,"poil8");
             input.close();
-            Log.e("tag","poil9");
+            Log.e(MainActivity.TAG,"poil9");
 
         } catch (Exception e) {
             return e.toString();

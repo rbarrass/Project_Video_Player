@@ -3,11 +3,14 @@ package com.example.project_video_player;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class ServerActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,11 +18,13 @@ public class ServerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server);
 
-        final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
+        //final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
+        final MultiAutoCompleteTextView tap_your_link_here = (MultiAutoCompleteTextView) findViewById(R.id.fieldURL);
         final Button downloadBtn = (Button)findViewById(R.id.downloadButtonID);
 
         downloadBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
+                String downloadUrl = tap_your_link_here.getText().toString();
                 System.out.println("clic");
                 new DownloadFileFromURL().execute(downloadUrl);
             }
