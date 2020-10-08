@@ -47,7 +47,7 @@ public class ServerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String downloadUrl = tap_your_link_here.getText().toString();
                 System.out.println("clic");
-                new DownloadFileFromURL().execute(downloadUrl);
+                new DownloadViaUrl().execute(downloadUrl);
             }
         });
 
