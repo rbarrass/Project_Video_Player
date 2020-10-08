@@ -56,7 +56,7 @@ public class ClientActivity extends AppCompatActivity {
             if (!bluetoothAdapter.isEnabled())
             {
                 // Display to user a message to inform of the unactivated bluetooh
-                Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Bluetooth unactivated !", Toast.LENGTH_SHORT).show();
                 // Possibility 1 : make a demand to user for bluetooth activation
                 Intent activeBlueTooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(activeBlueTooth, REQUEST_CODE_ENABLE_BLUETOOTH);
@@ -67,7 +67,7 @@ public class ClientActivity extends AppCompatActivity {
             else
             {
                 // Display to user about blutooth activation
-                Toast.makeText(getApplicationContext(), "Bluetooth activé", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Bluetooth activated", Toast.LENGTH_SHORT).show();
                 // Get bounded devices
                 devices = bluetoothAdapter.getBondedDevices();
                 // List all bounded devices
@@ -87,14 +87,10 @@ public class ClientActivity extends AppCompatActivity {
             }
         }
 
-        /*FragmentManager fragmentManager = getSupportFragmentManager();
-
-        mDeviceListFragment = DeviceListFragment.newInstance(bluetoothAdapter);
-        fragmentManager.beginTransaction().replace(R.id.container, mDeviceListFragment).commit();*/
         Button scanBtn = (Button)findViewById(R.id.buttonBlueScanID);
         scanBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                test();
+                discoveringNewDevices();
             }
         });
     }
@@ -107,16 +103,16 @@ public class ClientActivity extends AppCompatActivity {
             return;
         if (resultCode == RESULT_OK)
         {
-            Toast.makeText(getApplicationContext(), "Bluetooth activé", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Bluetooth activated", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(getApplicationContext(), "Bluetooth non activé !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Bluetooth unactivated !", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    public void test() {
-        Toast.makeText(getApplicationContext(), "Apouillé", Toast.LENGTH_SHORT).show();
+    public void discoveringNewDevices() {
+        Toast.makeText(getApplicationContext(), "We try to detect new devices", Toast.LENGTH_SHORT).show();
         /*if (!bluetoothAdapter.isDiscovering()) {
             Toast.makeText(getApplicationContext(), "is discovering", Toast.LENGTH_SHORT).show();
             bluetoothAdapter.startDiscovery();
@@ -183,31 +179,15 @@ public class ClientActivity extends AppCompatActivity {
             String deviceAddress = b.getText().toString();
             Toast.makeText(getApplication(), "Device : " + deviceName + " MAC : " + deviceAddress, Toast.LENGTH_LONG).show();
 
-            // Make an intent to start next activity.
-            Intent i = new Intent(ClientActivity.this, ClientSocket.class);
-            //Change the activity.
-            i.putExtra(EXTRA_ADDRESS, deviceAddress); //this will be received at CommunicationsActivity
-            startActivity(i);
+            // Create an Intent and start the new activity
+            Intent ourIntent = new Intent(ClientActivity.this, ClientSocket.class);
+            // Change activity and transmit bluetooth address.
+            ourIntent.putExtra(EXTRA_ADDRESS, deviceAddress);
+            // Starting...
+            startActivity(ourIntent);
         }
     };
 
-    /*private AdapterView.OnItemClickListener clickOnItemList = new AdapterView.OnItemClickListener()
-    {
-        public void onItemClick (AdapterView av, View v, int arg2, long arg3)
-        {
-            // Get the device MAC address, the last 17 chars in the View
-            TextView something = (TextView) v.findViewById(R.id.tvName);
-            String info = ((TextView) v).getText().toString();
-            Toast.makeText(getApplicationContext(), something.getText() , Toast.LENGTH_LONG).show();
-
-            //String address = info.substring(info.length() - 17);
-            // Make an intent to start next activity.
-            //Intent i = new Intent(ClientActivity.this, ClientSocketActivity.class);
-            //Change the activity.
-            //i.putExtra(EXTRA_ADDRESS, address); //this will be received at CommunicationsActivity
-            //startActivity(i);
-        }
-    };*/
 
     // TODELETE
     @Override

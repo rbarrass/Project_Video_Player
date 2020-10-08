@@ -76,7 +76,7 @@ class Server_Connect_Thread extends Thread {
     }
     // Running the connexion
     public void run() {
-
+        // The bluetooth socket
         BluetoothSocket TheBluetoothSocket;
         while (running) {
             try {

@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    // We require for runtime permission in order to make application work properly
     public void runtimePermission() {
         Log.i(MainActivity.TAG, "MainActivity onBind");
         Dexter.withActivity(this).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new PermissionListener() {
