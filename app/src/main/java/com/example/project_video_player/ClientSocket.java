@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import java.io.File;
 
 public class ClientSocket extends AppCompatActivity {
 

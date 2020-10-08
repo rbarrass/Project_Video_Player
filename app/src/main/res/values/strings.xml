@@ -6,17 +6,17 @@
     <string name="activity_desc">Choose your role :</string>
     <string name="button_server">Server</string>
     <string name="button_client">Client</string>
-
+    <string name="button_download">Download</string>
     <string name="buttonBlueScanID">Bluetooth Scan</string>
     <string name="btnConnecter">Connecter</string>
     <string name="btnDeconnecter">Déconnecter</string>
     <string name="simple_spinner_item">Spinner</string>
+    <string name="fieldURL">Tap your link here</string>
+    <string name="buttonLauncher">Launch Server</string>
     <string name="bounded_bluetooth_devices">Bounded bluetooth devices</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
     <string name="device">Device :</string>
     <string name="mac">Mac :</string>
     <string name="tap_your_link_here">tap your link here</string>
-    <string name="button_download">Download</string>
-
 </resources>
