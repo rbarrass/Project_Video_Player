@@ -1,5 +1,6 @@
 package com.example.project_video_player;
 
+
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -11,7 +12,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class DownloadFileFromURL extends AsyncTask<String, String, String> {
+public class DownloadViaUrl extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPreExecute() {
@@ -73,3 +74,4 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
         Log.i(MainActivity.TAG, "FILE SUCCESSFULLY DOWNLOADED.");
     }
 }
+

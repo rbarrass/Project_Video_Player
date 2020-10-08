@@ -16,66 +16,75 @@ import java.util.UUID;
 
 public class ClientSocketFunctions extends AsyncTask<Void, Void, Void> {
 
-    private boolean mConnected = true;
-    private ProgressDialog mProgressDialog;
-    private BluetoothAdapter mBluetoothAdapter = null;
-    private BluetoothSocket mBluetoothSocket = null;
-    private AppCompatActivity mCurrentActivity = null;
-    private String mAddress = null;
+    private boolean isConnected = true;
+    private ProgressDialog dialog;
+    private BluetoothAdapter adapter = null;
+    private BluetoothSocket socket = null;
+    private AppCompatActivity appActivity = null;
+    private String myAddress = null;
 
     private static final UUID myUUID = UUID.fromString("6559a8ad-d9e9-4a4d-9c96-fbda95d2496c");
 
     ClientSocketFunctions(AppCompatActivity activity, String address) {
-        mCurrentActivity = activity;
-        mAddress =  address;
+        appActivity = activity;
+        myAddress =  address;
     }
+
 
     @Override
     protected void onPreExecute()     {
-        mProgressDialog = ProgressDialog.show(mCurrentActivity, "Connecting in progress", "Connecting in progress");  //show a progress dialog
+        // show on the screen a dialog
+        dialog = ProgressDialog.show(appActivity, "Processing...", "Processing...");
     }
 
     @Override
-    protected Void doInBackground(Void... devices) { //while the progress dialog is shown, the connection is done in background
+    protected Void doInBackground(Void... devices) {
+        //if the dialog is shown, the connection will be run in background
 
         try {
-            if (mBluetoothSocket == null || !mConnected) {
-                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
-                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mAddress);//connects to the device's address and checks if it's available
-                mBluetoothSocket = device.createRfcommSocketToServiceRecord(myUUID);//create a RFCOMM (SPP) connection
+            if (socket == null || !isConnected) {
+                //get the device by his bluetooth
+                adapter = BluetoothAdapter.getDefaultAdapter();
+                //connection to the device and checks if it's ok
+                BluetoothDevice device = adapter.getRemoteDevice(myAddress);
+                //create a connection by the UUID
+                socket = device.createRfcommSocketToServiceRecord(myUUID);
                 BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                mBluetoothSocket.connect();//start connection
+                socket.connect();//start connection
                 Log.e(MainActivity.TAG, "Socket connected");
             }
         }
         catch (IOException e) {
-            mConnected = false;//if the try failed, you can check the exception here
+            //Show the error if the try fail
+            isConnected = false;
             Log.e(MainActivity.TAG, "error catch");
         }
         return null;
     }
+
+    //the post execute checks if it's alright before the doInBackground
     @Override
-    protected void onPostExecute(Void result) { //after the doInBackground, it checks if everything went fine
+    protected void onPostExecute(Void result) {
 
         super.onPostExecute(result);
 
-        if (!mConnected){
+        if (!isConnected){
             message("Connection Failed. Is it a SPP Bluetooth running a server? Try again.");
-            mCurrentActivity.finish();
+            appActivity.finish();
 
         }
         else {
             message("Connected.");
         }
-        mProgressDialog.dismiss();
+        dialog.dismiss();
     }
 
 
     public void disconnect() {
-        if (mBluetoothSocket!=null) //If the btSocket is busy
+        if (socket!=null) //If the socket is already full
         {
             try  {
-                mBluetoothSocket.close(); //close connection
+                socket.close(); // then try to close connection
             }
             catch (IOException e) {
                 message("Error");
@@ -84,12 +93,12 @@ public class ClientSocketFunctions extends AsyncTask<Void, Void, Void> {
 
         message("Disconnected");
 
-        mCurrentActivity.finish();
+        appActivity.finish();
     }
 
 
     private void message(String s) {
-        Toast.makeText(mCurrentActivity.getApplicationContext(),s, Toast.LENGTH_LONG).show();
+        Toast.makeText(appActivity.getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 
 }
