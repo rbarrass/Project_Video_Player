@@ -38,9 +38,10 @@ public class ServerActivity extends AppCompatActivity {
         });
 
         launchServer.setOnClickListener(new View.OnClickListener(){
+            Server_Connect_Thread SocketThread = new Server_Connect_Thread();
             public void onClick(View v) {
                 System.out.println("clic Launch server");
-                new Server_Connect_Thread().start();
+                SocketThread.start();
             }
         });
     }
