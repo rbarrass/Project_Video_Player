@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,13 +46,15 @@ public class ServerActivity extends AppCompatActivity {
                 if (!serverIsRunning) {
                     Log.e(MainActivity.TAG, "ACTIVE THE THREAD");
                     serverIsRunning = true;
+                    Toast.makeText(getApplicationContext(), "Server activation...", Toast.LENGTH_SHORT).show();
                     launchServer.setText("Server is activated");
                     SocketThread.start();
                 } else {
                     Log.e(MainActivity.TAG, "STOP THE THREAD");
                     serverIsRunning = false;
+                    Toast.makeText(getApplicationContext(), "Server Deactivation...", Toast.LENGTH_SHORT).show();
                     launchServer.setText("Server is stopped");
-                    SocketThread.interrupted();
+                    SocketThread.interrupt();
                 }
             }
         });

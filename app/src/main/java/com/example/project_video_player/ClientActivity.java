@@ -125,6 +125,7 @@ public class ClientActivity extends AppCompatActivity {
 
         if (!bluetoothAdapter.isDiscovering()) {
             Toast.makeText(getApplicationContext(), "is discovering", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "is discovering", Toast.LENGTH_SHORT).show();
             bluetoothAdapter.startDiscovery();
         }
 

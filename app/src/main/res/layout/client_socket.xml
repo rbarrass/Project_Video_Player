@@ -7,7 +7,7 @@
     tools:context=".ClientSocket">
 
     <VideoView
-        android:id="@+id/video"
+        android:id="@+id/streaming"
         android:layout_width="300dp"
         android:layout_height="292dp"
         app:layout_constraintBottom_toBottomOf="parent"
