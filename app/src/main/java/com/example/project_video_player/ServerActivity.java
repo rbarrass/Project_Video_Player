@@ -17,6 +17,7 @@ import java.util.UUID;
 
 public class ServerActivity extends AppCompatActivity {
 
+    private boolean serverIsRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +38,21 @@ public class ServerActivity extends AppCompatActivity {
             }
         });
 
+        // Here we define socket button and activate/deactivate bluetooth server mode
         launchServer.setOnClickListener(new View.OnClickListener(){
-            Server_Connect_Thread SocketThread = new Server_Connect_Thread();
             public void onClick(View v) {
-                System.out.println("clic Launch server");
-                SocketThread.start();
+                Server_Connect_Thread SocketThread = new Server_Connect_Thread();
+                if (!serverIsRunning) {
+                    Log.e(MainActivity.TAG, "ACTIVE THE THREAD");
+                    serverIsRunning = true;
+                    launchServer.setText("Server is activated");
+                    SocketThread.start();
+                } else {
+                    Log.e(MainActivity.TAG, "STOP THE THREAD");
+                    serverIsRunning = false;
+                    launchServer.setText("Server is stopped");
+                    SocketThread.interrupted();
+                }
             }
         });
     }
@@ -55,28 +66,30 @@ class Server_Connect_Thread extends Thread {
     private boolean running = true;
 
     public Server_Connect_Thread() {
-
+        // Try to connect to server
         try {
+            // It's our UUID. It is the same as the UUID server, it authorize the connexion
             mmServerSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord("NAME", UUID.fromString("6559a8ad-d9e9-4a4d-9c96-fbda95d2496c"));
         } catch (IOException e) {
-            Log.e(MainActivity.TAG, "Bluetooth Error! listenUsingRfcommWithServiceRecord failed. Reason:" + e);
+            Log.e(MainActivity.TAG, "Error on bluetooth connexion because of listenUsingRfcommWithServiceRecord failed. Reason:" + e);
         }
     }
-
+    // Running the connexion
     public void run() {
-        BluetoothSocket mBluetoothSocket;
+        // The bluetooth socket
+        BluetoothSocket TheBluetoothSocket;
         while (running) {
             try {
-                mBluetoothSocket = mmServerSocket.accept();
+                TheBluetoothSocket = mmServerSocket.accept();
             } catch (IOException e) {
                 break;
             }
-            if (mBluetoothSocket != null) {
-                // transfer the data here
-                Log.e(MainActivity.TAG, "#####Socket created#####");
+            if (TheBluetoothSocket != null) {
+                // Transfer of data
+                Log.e(MainActivity.TAG, "The socket is created");
                 try{
-                    Log.e(MainActivity.TAG, "#####*client connected#####");
-                    mBluetoothSocket.close();
+                    Log.e(MainActivity.TAG, "Client is connected");
+                    TheBluetoothSocket.close();
                 } catch (IOException e) {
 
                 }

@@ -35,6 +35,7 @@
             android:enabled="true"
             android:exported="true"></receiver>
 
+        <activity android:name=".ClientSocket" />
         <activity
             android:name=".ClientActivity"
             android:label="@string/app_client_name" />

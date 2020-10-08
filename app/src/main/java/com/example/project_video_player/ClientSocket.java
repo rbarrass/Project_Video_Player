@@ -8,27 +8,29 @@ import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-
+// Intent of client socket
 public class ClientSocket extends AppCompatActivity {
 
     private String device_address_transmitted;
-    protected ClientSocketFunctions mBluetoothConnection;
+    protected ClientSocketFunctions newBluetoothConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_socket);
 
+        // Init the intend
         Intent newIntent = getIntent();
+        // Get MAC address transmited
         device_address_transmitted = newIntent.getStringExtra(ClientActivity.EXTRA_ADDRESS);
-
-        mBluetoothConnection = new ClientSocketFunctions(this, device_address_transmitted);
-        mBluetoothConnection.execute();
+        // Call our connect by socket functions
+        newBluetoothConnection = new ClientSocketFunctions(this, device_address_transmitted);
+        newBluetoothConnection.execute();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBluetoothConnection.disconnect();
+        newBluetoothConnection.disconnect();
     }
 }
