@@ -27,12 +27,20 @@ public class ServerActivity extends AppCompatActivity {
         //final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
         final MultiAutoCompleteTextView tap_your_link_here = (MultiAutoCompleteTextView) findViewById(R.id.fieldURL);
         final Button downloadBtn = (Button)findViewById(R.id.downloadButtonID);
+        final Button launchServer = (Button)findViewById(R.id.threadLauncherID);
 
         downloadBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 String downloadUrl = tap_your_link_here.getText().toString();
-                System.out.println("clic");
+                System.out.println("clic download");
                 new DownloadFileFromURL().execute(downloadUrl);
+            }
+        });
+
+        launchServer.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                System.out.println("clic Launch server");
+                new Server_Connect_Thread().start();
             }
         });
     }
