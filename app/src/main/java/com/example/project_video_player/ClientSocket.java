@@ -32,8 +32,7 @@ public class ClientSocket extends AppCompatActivity {
         newBluetoothConnection = new ClientSocketFunctions(this, device_address_transmitted);
         newBluetoothConnection.execute();
 
-        // Reade video
-
+        // Read video
         VideoView vidView = (VideoView)findViewById(R.id.streaming);
 
         // Add playback controls.
@@ -44,7 +43,7 @@ public class ClientSocket extends AppCompatActivity {
         vidView.setMediaController(vidControl);
 
         File dir = Environment.getExternalStorageDirectory();
-        File manualFile = new File(dir, "/" + "Download/downloadedfile.mp4");
+        File manualFile = new File(dir, "/" + "downloadedfile.mp4");
         Log.e(MainActivity.TAG,"CLIENT FILE LOCATION : "+manualFile);
 
         Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", manualFile);
