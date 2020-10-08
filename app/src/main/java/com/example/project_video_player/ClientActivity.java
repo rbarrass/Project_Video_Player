@@ -32,7 +32,7 @@ public class ClientActivity extends AppCompatActivity {
     private ArrayList<DeviceItem> deviceItemList;
     //private DeviceListFragment mDeviceListFragment;
     private BroadcastReceiver mReceiver;
-    public static String EXTRA_ADDRESSE = "client_address";
+    public static String EXTRA_ADDRESS = "client_address";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +184,7 @@ public class ClientActivity extends AppCompatActivity {
             Toast.makeText(getApplication(), "Device : " + deviceName + " MAC : " + deviceAddress, Toast.LENGTH_LONG).show();
 
             // Make an intent to start next activity.
-            Intent i = new Intent(ClientActivity.this, ClientSocketActivity.class);
+            Intent i = new Intent(ClientActivity.this, ClientSocket.class);
             //Change the activity.
             i.putExtra(EXTRA_ADDRESS, deviceAddress); //this will be received at CommunicationsActivity
             startActivity(i);

@@ -13,44 +13,19 @@ import java.io.File;
 
 public class ClientSocket extends AppCompatActivity {
 
-    private String mDeviceAddress;
-    protected ClientSocketTask mBluetoothConnection;
+    private String device_address_transmitted;
+    protected ClientSocketFunctions mBluetoothConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_socket);
+        setContentView(R.layout.client_socket);
 
         Intent newIntent = getIntent();
-        mDeviceAddress = newIntent.getStringExtra(ClientActivity.EXTRA_ADDRESS);
+        device_address_transmitted = newIntent.getStringExtra(ClientActivity.EXTRA_ADDRESS);
 
-        mBluetoothConnection = new ClientSocketTask(this, mDeviceAddress);
+        mBluetoothConnection = new ClientSocketFunctions(this, device_address_transmitted);
         mBluetoothConnection.execute();
-
-        /*newIntent.setAction(Intent.ACTION_SEND);
-        newIntent.setType("/");
-        newIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File("downloadedfile.mp4")));
-        Log.e(MainActivity.TAG,"INTENT USE");
-        startActivity(newIntent);*/
-
-        // Get a reference to the VideoView instance as follows, using the id we set in the XML layout.
-        VideoView vidView = (VideoView)findViewById(R.id.video);
-
-        // Add playback controls.
-        MediaController vidControl = new MediaController(this);
-        // Set it to use the VideoView instance as its anchor.
-        vidControl.setAnchorView(vidView);
-        // Set it as the media controller for the VideoView object.
-        vidView.setMediaController(vidControl);
-
-        // Prepare the URI for the endpoint.
-        String vidAddress = "android.resource://" + getPackageName() + "/" + R.raw.video;
-        Uri vidUri = Uri.parse(vidAddress);
-        // Parse the address string as a URI so that we can pass it to the VideoView object.
-        vidView.setVideoURI(vidUri);
-        // Start playback.
-        vidView.start();
-
     }
 
     @Override

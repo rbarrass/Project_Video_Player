@@ -17,12 +17,15 @@ import java.util.UUID;
 
 public class ServerActivity extends AppCompatActivity {
 
+    private Button launchServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server);
+        launchServer = (Button) findViewById(R.id.launchServer);
+
 
         //final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
         final MultiAutoCompleteTextView tap_your_link_here = (MultiAutoCompleteTextView) findViewById(R.id.fieldURL);
@@ -35,8 +38,15 @@ public class ServerActivity extends AppCompatActivity {
                 new DownloadFileFromURL().execute(downloadUrl);
             }
         });
+
+        launchServer.setOnClickListener(new View.OnClickListener()) {
+            public void onClick(View v) {
+
+            }
+        };
     }
 }
+
 
 class Server_Connect_Thread extends Thread {
 
