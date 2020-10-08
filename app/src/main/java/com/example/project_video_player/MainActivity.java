@@ -59,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPermissionDenied(PermissionDeniedResponse response) {
-
-            }
-
-            @Override
             public void onPermissionRationaleShouldBeShown(com.karumi.dexter.listener.PermissionRequest permission, PermissionToken token) {
 
             }
@@ -71,7 +66,16 @@ public class MainActivity extends AppCompatActivity {
             public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
                 token.continuePermissionRequest();
             }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse response) {
+
+            }
+
+
+
+
+
         }).check();
     }
-
 }
