@@ -75,7 +75,7 @@ public class ServerActivity extends AppCompatActivity {
         sendfileID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileSender("/downloadedfile.mp4");
+                fileSender("/dl.mp4");
             }
         });
 

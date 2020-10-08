@@ -40,7 +40,7 @@ public class DownloadViaUrl extends AsyncTask<String, String, String> {
             // download the file
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
             Log.e(MainActivity.TAG,"test3");
-            OutputStream output = new FileOutputStream(root + "/downloadedfile.mp4");
+            OutputStream output = new FileOutputStream(root + "/dl.mp4");
             Log.e(MainActivity.TAG,"test4");
 
             byte data[] = new byte[1024];
