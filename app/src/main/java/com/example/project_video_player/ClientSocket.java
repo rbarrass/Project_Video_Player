@@ -43,7 +43,7 @@ public class ClientSocket extends AppCompatActivity {
         vidView.setMediaController(vidControl);
 
         File dir = Environment.getExternalStorageDirectory();
-        File manualFile = new File(dir, "/" + "downloadedfile.mp4");
+        File manualFile = new File(dir, "/" + "bluetooth/downloadedfile.mp4");
         Log.e(MainActivity.TAG,"CLIENT FILE LOCATION : "+manualFile);
 
         Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", manualFile);

@@ -3,7 +3,10 @@ package com.example.project_video_player;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +14,9 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -19,6 +24,9 @@ import java.util.UUID;
 public class ServerActivity extends AppCompatActivity {
 
     private boolean serverIsRunning = false;
+
+    private Button sendfileID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +36,14 @@ public class ServerActivity extends AppCompatActivity {
 
         //final String downloadUrl = "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
         final MultiAutoCompleteTextView tap_your_link_here = (MultiAutoCompleteTextView) findViewById(R.id.fieldURL);
-        final Button downloadBtn = (Button)findViewById(R.id.downloadButtonID);
-        final Button launchServer = (Button)findViewById(R.id.threadLauncherID);
+        final Button downloadBtn = (Button) findViewById(R.id.downloadButtonID);
+        final Button launchServer = (Button) findViewById(R.id.threadLauncherID);
 
-        downloadBtn.setOnClickListener(new View.OnClickListener(){
+
+        sendfileID = (Button) findViewById(R.id.sendfileID);
+
+
+        downloadBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String downloadUrl = tap_your_link_here.getText().toString();
                 System.out.println("clic");
@@ -40,7 +52,7 @@ public class ServerActivity extends AppCompatActivity {
         });
 
         // Here we define socket button and activate/deactivate bluetooth server mode
-        launchServer.setOnClickListener(new View.OnClickListener(){
+        launchServer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Server_Connect_Thread SocketThread = new Server_Connect_Thread();
                 if (!serverIsRunning) {
@@ -58,9 +70,34 @@ public class ServerActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // When button is clicked, call sending function
+        sendfileID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileSender("/downloadedfile.mp4");
+            }
+        });
+
+    }
+
+
+    public void fileSender(String fileName) {
+        Log.d(MainActivity.TAG, "Sending");
+        File repo = Environment.getExternalStorageDirectory();
+        File ourFile = new File(repo, "/" + fileName);
+        Log.e(MainActivity.TAG, "The file : " + ourFile);
+        Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", ourFile);
+        String type = "application/mp4";
+        // Creation of the intent
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        sharingIntent.setType(type);
+        sharingIntent.setClassName("com.android.bluetooth", "com.android.bluetooth.opp.BluetoothOppLauncherActivity");
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(sharingIntent);
     }
 }
-
 
 class Server_Connect_Thread extends Thread {
 
